@@ -5,7 +5,7 @@ metadata:
   labels:
     app: my-funcapp
 spec:
-  replicas: 3  # Number of pods
+  replicas: 2  # Number of pods
   selector:
     matchLabels:
       app: my-funcapp
