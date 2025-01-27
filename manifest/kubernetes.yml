@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-funcapp
+  labels:
+    app: my-funcapp
+spec:
+  replicas: 6  # Number of pods
+  selector:
+    matchLabels:
+      app: my-funcapp
+  template:
+    metadata:
+      labels:
+        app: my-funcapp
+    spec:
+      containers:
+        - name: my-funcapp-container
+          image: angularapp.azurecr.io/funcappimg:latest  
+          ports:
+            - containerPort: 80
+          env:
+            - name: ENVIRONMENT
+              value: "production"
+      imagePullSecrets:
+        - name: acr-secret  
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-funcapp-service
+spec:
+  selector:
+    app: my-funcapp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer  
